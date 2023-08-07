@@ -408,11 +408,22 @@ _**The WisBlock-API-V2 has been used as well in the following PlatformIO project
 
 ## Firmware update over BLE
 
-When used with the RAK4631, firmware update over BLE is already included in the library. Firmware updates for the RAK4631 can be done by using the Nordic nRF Toolbox (available for Android and iOS) or with the WisBlock Toolbox (my Android application).    
-For the update, copy the created update file (usually called firmware.zip) from the .pio/build/{device} folder, copy it to you phone and use one of the applications to update the firmware.
+When working with the RAK4631, the library includes the functionality for firmware updates over BLE. You can perform these updates using either the Nordic nRF Toolbox (available for both Android and iOS) or the WisBlock Toolbox (my Android application).
 
-#### 📝 _INFO_    
-If the firmware update via BLE fails, update the device to the latest bootloader for the RAK4631 with the version V0.4.3. You can find the latest bootloader in the [WisBlock repo](https://github.com/RAKWireless/WisBlock/tree/master/bootloader/RAK4630/Latest)     
+To initialize firmware updates over BLE, you'll need to enable BLE within the setup_app() function. This is done by setting g_enable_ble = true;.
+
+Additionally, you'll need to manually enable advertising using the restart_advertising(xx); function, where xx is the duration of active advertising in seconds. Setting xx to 0 will keep advertising on continuously, but be aware that this isn't optimal for low power consumption. However, for development and debugging purposes, you can start with restart_advertising(0);. After xx seconds, you'll need to restart the device before attempting an update.
+
+When you're ready to update the firmware, locate the update file (typically named firmware.zip) in the .pio/build/{device} directory. Transfer this file to your phone, and then use either the Nordic nRF Toolbox or the WisBlock Toolbox to complete the firmware update.
+
+
+#### 📝 _INFO_
+
+In case you encounter any issues with the firmware update via BLE, it's recommended to update your device to the latest bootloader for the RAK4631, specifically version V0.4.3 or later. You can find this latest bootloader in the [WisBlock repository](https://github.com/RAKWireless/WisBlock/tree/master/bootloader/RAK4630/Latest).
+
+To perform the bootloader upgrade, initiate the bootloader mode by quickly pressing the reset button twice. Once in bootloader mode, a drive will appear on your computer. Copy the new bootloader file, named `wiscore_XXX.uf2`, to this drive.
+
+After updating the bootloader, your device may start in bootloader mode. If this occurs, you'll need to flash a new firmware via USB.
 
 ----
 
